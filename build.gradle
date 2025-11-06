@@ -1,0 +1,93 @@
+plugins {
+    id 'java'
+    id 'java-library'
+    id 'signing'
+    id 'maven-publish'
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id 'jacoco'
+    id 'jacoco-report-aggregation'
+
+    id "tech.medivh.plugin.publisher" version "1.2.3"
+}
+
+group = 'enterprises.iwakura'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'enterprises.iwakura:kirara-core:1.1.0'
+    implementation 'enterprises.iwakura:kirara-gson:1.1.0'
+    implementation 'enterprises.iwakura:kirara-httpclient:1.1.0'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.13.1'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+    testCompileOnly 'org.projectlombok:lombok:1.18.38'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation 'org.slf4j:slf4j-api:2.0.17'
+    testImplementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
+    testImplementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+    withJavadocJar()
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile) {
+    options.release = 11
+}
+
+// == Maven publishing == //
+
+medivhPublisher {
+    groupId = project.group.toString()
+    artifactId = project.name
+    version = project.version.toString()
+    pom {
+        name = "Kirara AmiAmi API"
+        description = "AmiAmi.com API wrapper using Kirara"
+        url = "https://github.com/iwakura-enterprises/kirara-amiami-api"
+        licenses {
+            license {
+                name = "The MIT License"
+                url = "https://opensource.org/license/mit"
+            }
+        }
+        developers {
+            developer {
+                id = "mayuna"
+                name = "Marek Lof"
+                email = "uwulilmayu@gmail.com"
+            }
+        }
+        scm {
+            connection = "scm:git:"
+            url = "https://github.com/iwakura-enterprises/kirara-amiami-api.git"
+        }
+    }
+}
+
+components.java.withVariantsFromConfiguration(configurations.shadowRuntimeElements) {
+    skip()
+}
+
+shadowJar.dependsOn javadocJar
+shadowJar.dependsOn sourcesJar
+shadowJar.dependsOn jar
