@@ -44,6 +44,12 @@ test {
     finalizedBy jacocoTestReport
 }
 
+task publishCloseAndRelease() {
+    dependsOn 'cleanBuildMedivhMavenRepo'
+    dependsOn 'uploadToSonatype'
+    dependsOn 'publishDeployment'
+}
+
 jacocoTestReport {
     reports {
         csv.required.set(true)
