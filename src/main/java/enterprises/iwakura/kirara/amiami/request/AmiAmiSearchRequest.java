@@ -65,11 +65,6 @@ public class AmiAmiSearchRequest {
     private Boolean filterOnSaleItems;
 
     /**
-     * Filters by game's or show's ID, optional.
-     */
-    private Integer originalTitleId;
-
-    /**
      * Filters by category (1st level), optional.
      */
     private Integer category1Id;
@@ -100,9 +95,24 @@ public class AmiAmiSearchRequest {
     private Integer characterNameId;
 
     /**
-     * Filters by brand (maker) ID, optional.
+     * Filters by maker ID, optional.
      */
-    private Integer brandId;
+    private Integer makerId;
+
+    /**
+     * Filters by game's or show's ID, optional.
+     */
+    private Integer originalTitleId;
+
+    /**
+     * Filters by series title ID, optional.
+     */
+    private Integer seriesTitleId;
+
+    /**
+     * Sort key, optional. See {@link SortKeys} for possible values.
+     */
+    private String sortKey;
 
     /**
      * Converts the search request parameters into a set of request queries.
@@ -133,14 +143,16 @@ public class AmiAmiSearchRequest {
         addIfNonEmpty(queries, "s_st_condition_flg", filterPreOwnedItems);
         addIfNonEmpty(queries, "s_st_list_store_bonus", filterAmiAmiBonus);
         addIfNonEmpty(queries, "s_st_saleitem", filterOnSaleItems);
-        addIfNonEmpty(queries, "s_originaltitle_id", originalTitleId);
         addIfNonEmpty(queries, "s_cate1", category1Id);
         addIfNonEmpty(queries, "s_cate2", category2Id);
         addIfNonEmpty(queries, "s_cate3", category3Id);
         addIfNonEmpty(queries, "s_cate4", category4Id);
         addIfNonEmpty(queries, "s_cate_tag", categoryTagId);
         addIfNonEmpty(queries, "s_charaname_search_id", characterNameId);
-        addIfNonEmpty(queries, "s_maker_id", brandId);
+        addIfNonEmpty(queries, "s_maker_id", makerId);
+        addIfNonEmpty(queries, "s_originaltitle_id", originalTitleId);
+        addIfNonEmpty(queries, "s_seriestitle_id", seriesTitleId);
+        addIfNonEmpty(queries, "s_sortkey", sortKey);
 
         return queries;
     }
@@ -161,5 +173,15 @@ public class AmiAmiSearchRequest {
         if (value != null && value > 0) {
             queries.add(RequestQuery.of(key, String.valueOf(value)));
         }
+    }
+
+    /**
+     * Sort key constants for AmiAmi search requests.
+     */
+    public static class SortKeys {
+
+        public static final String RECENTLY_UPDATED = "regtimed";
+        public static final String RECOMMENDED = "recommend";
+        public static final String RELEASE_DATE = "releasedated";
     }
 }

@@ -96,16 +96,16 @@ public class AmiAmiSearchResponse extends AmiAmiResponse {
         private long priceTaxedJpy;
 
         /**
-         * Brand, also known as maker, name. SQUARE ENIX, etc.
+         * Maker name. SQUARE ENIX, etc.
          */
         @SerializedName("maker_name")
-        private String brandName;
+        private String makerName;
 
         @SerializedName("saleitem")
         private int saleItem;
 
         @SerializedName("condition_flg")
-        private int conditionFlag;
+        private int listPreOwnedAvailable;
 
         @SerializedName("list_preorder_available")
         private int listPreorderAvailable;
@@ -216,7 +216,7 @@ public class AmiAmiSearchResponse extends AmiAmiResponse {
         private List<Tag> categoryTags;
 
         @SerializedName("makers")
-        private List<Tag> brandTags;
+        private List<Tag> makerTags;
 
         @SerializedName("series_titles")
         private List<Tag> seriesTitleTags;
