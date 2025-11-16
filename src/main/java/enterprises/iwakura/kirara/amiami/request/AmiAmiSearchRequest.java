@@ -19,6 +19,12 @@ public class AmiAmiSearchRequest {
     private long maximumItemsPerPage = 20L;
 
     /**
+     * Page number (default: 1), required.
+     */
+    @Builder.Default
+    private long pageNumber = 1L;
+
+    /**
      * Language code (default: "eng"), required.
      */
     @Builder.Default
@@ -134,6 +140,7 @@ public class AmiAmiSearchRequest {
         var queries = new HashSet<RequestQuery>();
 
         queries.add(RequestQuery.of("pagemax", String.valueOf(maximumItemsPerPage)));
+        queries.add(RequestQuery.of("pagecnt", String.valueOf(pageNumber)));
         queries.add(RequestQuery.of("lang", language));
 
         addIfNonEmpty(queries, "s_keywords", searchKeywords);

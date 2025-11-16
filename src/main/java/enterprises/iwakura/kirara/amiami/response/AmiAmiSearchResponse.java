@@ -155,6 +155,9 @@ public class AmiAmiSearchResponse extends AmiAmiResponse {
         @SerializedName("resale_flg")
         private int resaleFlag;
 
+        /**
+         * Not sure what this is. If item is on Pre-Owned, this is still 0. Check {@link #listPreOwnedAvailable} for that.
+         */
         @SerializedName("preowned_sale_flg")
         private int preownedSaleFlag;
 
