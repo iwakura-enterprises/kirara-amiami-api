@@ -18,9 +18,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'enterprises.iwakura:kirara-core:1.1.0'
-    implementation 'enterprises.iwakura:kirara-gson:1.1.0'
-    implementation 'enterprises.iwakura:kirara-httpclient:1.1.0'
+    implementation 'enterprises.iwakura:kirara-core:1.4.1'
+    implementation 'enterprises.iwakura:kirara-gson:1.4.1'
+    implementation 'enterprises.iwakura:kirara-httpclient:1.4.1'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation 'com.google.code.gson:gson:2.13.1'
@@ -74,7 +74,7 @@ medivhPublisher {
     artifactId = project.name
     version = project.version.toString()
     pom {
-        name = "Kirara AmiAmi API"
+        name = "AmiAmi API Kirara"
         description = "AmiAmi.com API wrapper using Kirara"
         url = "https://github.com/iwakura-enterprises/kirara-amiami-api"
         licenses {

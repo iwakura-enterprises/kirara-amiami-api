@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import com.google.gson.Gson;
+
 import enterprises.iwakura.kirara.amiami.request.AmiAmiItemDetailsRequest;
 import enterprises.iwakura.kirara.amiami.request.AmiAmiSearchRequest;
 import lombok.SneakyThrows;
@@ -22,22 +24,41 @@ public class TestAmiAmiApi {
 
     @Test
     public void testSearch() {
-        var api = new AmiAmiApi();
+        var api = new AmiAmiApi(new Gson());
 
-        var searchResult = api.search(AmiAmiSearchRequest.builder()
-                .searchKeywords("reimu")
-                .build())
-            .send()
-            .join();
+        int timesRateLimited = 0;
 
-        log.info("Search Result: {}", searchResult);
-        int x = 0;
+        while (true) {
+            for (int page = 1; page <= 5; page++) {
+                try {
+                    var searchResult = api.search(AmiAmiSearchRequest.builder()
+                            .searchKeywords("fumo")
+                            .pageNumber(page)
+                            .build())
+                        .send()
+                        .join();
+
+                    log.info("Search Result: {}", searchResult);
+                    System.out.println("rate limited: " + searchResult.isRateLimited() + ": " + searchResult);
+                    Thread.sleep(250);
+                    if (!searchResult.isSuccessful()) {
+                        System.out.println("Sleeping for " + 10000 + timesRateLimited * 5000L);
+                        Thread.sleep(10000 + timesRateLimited * 5000L);
+                        timesRateLimited++;
+                    } else {
+                        timesRateLimited = 0;
+                    }
+                } catch (Exception exception) {
+                    System.err.println("Failed to fetch page");
+                }
+            }
+        }
     }
 
     @SneakyThrows
     @Test
     public void testItemDetails() {
-        var api = new AmiAmiApi();
+        var api = new AmiAmiApi(new Gson());
 
         var itemDetailsResult = api.getItemDetails(
                 AmiAmiItemDetailsRequest.builder()
@@ -70,7 +91,7 @@ public class TestAmiAmiApi {
 
     @Test
     public void testCurrencyLayer() {
-        var api = new AmiAmiApi();
+        var api = new AmiAmiApi(new Gson());
 
         var currencyLayerResult = api.getCurrencyLayer()
             .send()

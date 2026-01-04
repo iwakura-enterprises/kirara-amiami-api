@@ -192,10 +192,6 @@ public class AmiAmiSearchResponse extends AmiAmiResponse {
         @SerializedName("image_on")
         private int imageOn;
 
-        /**
-         * Image category, used in {@link enterprises.iwakura.kirara.amiami.AmiAmiImagesApi}, I think? Usually in format
-         * of "number/"
-         */
         @SerializedName("image_category")
         private String imageCategory;
 

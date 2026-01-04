@@ -46,6 +46,15 @@ public abstract class AmiAmiResponse extends KiraraResponse<AmiAmiApi> {
     }
 
     /**
+     * Check if the response indicates that the request was rate-limited (HTTP 429).
+     *
+     * @return true if rate-limited, false otherwise
+     */
+    public boolean isRateLimited() {
+        return !isSuccessful() && responseMessage.contains("429");
+    }
+
+    /**
      * Something called "RValue". Currently, holds only list of {@link ErrorDTO}.
      */
     @Data
